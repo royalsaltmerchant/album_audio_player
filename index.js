@@ -5,6 +5,11 @@ audioPlayers.forEach((player, index) => {
   let audio = player.querySelector(".audio-element");
   let playPauseButton = player.querySelector(".playPauseButton");
   let progress = player.querySelector(".progress");
+  let progressBar = player.querySelector(".progress-bar");
+  // Create or select a tooltip element to display the time
+  let timeTooltip = player.querySelector(".time-tooltip") || document.createElement("span");
+  timeTooltip.classList.add("time-tooltip");
+  progressBar.appendChild(timeTooltip); // Append the tooltip to the progress bar
 
   playPauseButton.addEventListener("click", function () {
     if (audio.paused) {
@@ -43,7 +48,26 @@ audioPlayers.forEach((player, index) => {
     playPauseButton.textContent = "⏵︎";
   });
 
-  player.querySelector(".progress-bar").addEventListener("click", function (e) {
+  // Add mousemove event listener to show time tooltip on hover
+  progressBar.addEventListener("mousemove", function (e) {
+    let rect = this.getBoundingClientRect();
+    let hoverPosition = (e.clientX - rect.left) / rect.width;
+    let hoverTime = hoverPosition * audio.duration;
+    let minutes = Math.floor(hoverTime / 60);
+    let seconds = Math.floor(hoverTime % 60);
+    seconds = seconds < 10 ? '0' + seconds : seconds; // Format seconds to always be two digits
+    timeTooltip.textContent = `${minutes}:${seconds}`; // Set the formatted time
+    timeTooltip.style.left = `${e.clientX - rect.left}px`; // Adjust the tooltip position horizontally
+    // No change needed to the style.left calculation here since it's about vertical positioning
+    timeTooltip.style.display = 'block'; // Make sure the tooltip is visible
+  });
+
+  // Hide the tooltip when not hovering over the progress bar
+  progressBar.addEventListener("mouseleave", function () {
+    timeTooltip.style.display = 'none';
+  });
+
+  progressBar.addEventListener("click", function (e) {
     let rect = this.getBoundingClientRect();
     let clickPosition = (e.clientX - rect.left) / rect.width;
     audio.currentTime = clickPosition * audio.duration;
