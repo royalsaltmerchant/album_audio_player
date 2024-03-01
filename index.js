@@ -1,4 +1,5 @@
 let audioPlayers = document.querySelectorAll(".audio-player");
+let playAllButton = document.querySelector(".play-all-button")
 let currentIndex = 0; // To keep track of the current audio index
 
 audioPlayers.forEach((player, index) => {
@@ -96,3 +97,6 @@ function playAudioByIndex(index) {
   playPauseButton.textContent = "⏸︎";
   currentIndex = index; // Update the current index
 }
+
+// Add event listener for play all button
+playAllButton.addEventListener("click", () => playAudioByIndex(0));
