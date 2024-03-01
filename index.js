@@ -3,7 +3,7 @@ let currentIndex = 0; // To keep track of the current audio index
 
 audioPlayers.forEach((player, index) => {
   let audio = player.querySelector(".audio-element");
-  let playPauseButton = player.querySelector(".playPauseButton");
+  let playPauseButton = player.querySelector(".play-pause-button");
   let progress = player.querySelector(".progress");
   let progressBar = player.querySelector(".progress-bar");
   // Create or select a tooltip element to display the time
@@ -19,7 +19,7 @@ audioPlayers.forEach((player, index) => {
         if (el !== audio) {
           el
             .closest(".audio-player")
-            .querySelector(".playPauseButton").textContent = "⏵︎";
+            .querySelector(".play-pause-button").textContent = "⏵︎";
         }
       });
 
@@ -41,7 +41,7 @@ audioPlayers.forEach((player, index) => {
     audio.pause();
     let playPauseButton = audio
       .closest(".audio-player")
-      .querySelector(".playPauseButton");
+      .querySelector(".play-pause-button");
     // Move to next audio after one finishes
     let nextIndex = index + 1;
     playAudioByIndex(nextIndex);
@@ -82,12 +82,12 @@ function playAudioByIndex(index) {
 
   let player = audioPlayers[index];
   let audio = player.querySelector(".audio-element");
-  let playPauseButton = player.querySelector(".playPauseButton");
+  let playPauseButton = player.querySelector(".play-pause-button");
 
   // Pause currently playing audio, if any
   document.querySelectorAll(".audio-element").forEach((el) => {
     el.pause();
-    el.closest(".audio-player").querySelector(".playPauseButton").textContent =
+    el.closest(".audio-player").querySelector(".play-pause-button").textContent =
       "⏵︎";
   });
 
